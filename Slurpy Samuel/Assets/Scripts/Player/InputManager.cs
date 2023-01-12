@@ -12,18 +12,22 @@ public class InputManager : MonoBehaviour {
 
     [Header("Input Actions")]
     private InputActionMap playerMap;
+    private InputActionMap weaponMap;
 
     private void OnEnable() {
 
         playerMap = playerInput.Player;
+        weaponMap = playerInput.Weapon;
 
         playerMap.Enable();
+        weaponMap.Enable();
 
     }
 
     private void OnDisable() {
 
         playerMap.Disable();
+        weaponMap.Disable();
 
     }
 
@@ -41,6 +45,7 @@ public class InputManager : MonoBehaviour {
         playerInput.Player.Sprint.canceled += ctx => playerController.ToggleSprint();
         playerInput.Player.Jump.performed += ctx => playerController.Jump();
         playerInput.Player.Crouch.performed += ctx => playerController.ToggleCrouch();
+        playerInput.Weapon.Attack.performed += ctx => playerController.Attack();
 
     }
 

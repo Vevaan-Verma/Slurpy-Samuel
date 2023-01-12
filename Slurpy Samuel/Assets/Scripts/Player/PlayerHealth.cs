@@ -5,9 +5,9 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour {
 
     [Header("Health")]
-    [SerializeField] private int health;
+    [SerializeField] private float health;
 
-    public void DamagePlayer(int damage) {
+    public void DamagePlayer(float damage) {
 
         health -= damage;
 

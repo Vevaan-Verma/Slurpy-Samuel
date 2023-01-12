@@ -282,6 +282,45 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "Weapon",
+            "id": "6c748fcd-cca6-4c90-aa25-96c45e6fd880",
+            "actions": [
+                {
+                    "name": "Attack",
+                    "type": "Button",
+                    "id": "376963c2-a8aa-4dd4-8e1f-697856d7787e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "9e575afe-6817-4cde-95dd-20bb07cfede2",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cca46d9c-ed8f-45dc-b5b3-b21dc4e09e8a",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

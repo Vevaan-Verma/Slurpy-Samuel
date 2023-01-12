@@ -45,6 +45,12 @@ public class PlayerController : MonoBehaviour {
     private float initialScale;
     private float standHeight;
 
+    [Header("Weapons")]
+    [SerializeField] private Transform swordHolder;
+    private List<Sword> swords;
+    private int currWeapon;
+    private float nextAttack;
+
     [Header("Ground Check")]
     [SerializeField][Range(0f, 2f)] private float groundCheckRadius;
     [SerializeField] private LayerMask environmentMask;
@@ -65,6 +71,22 @@ public class PlayerController : MonoBehaviour {
 
         initialScale = transform.localScale.y;
         standHeight = collider.height;
+
+        swords = new List<Sword>();
+
+        for (int i = 0; i < swordHolder.childCount; i++) {
+
+            swords.Add(swordHolder.GetChild(i).GetComponent<Sword>());
+
+        }
+
+        for (int i = 0; i < swords.Count; i++) {
+
+            swords[i].gameObject.SetActive(false);
+
+        }
+
+        SetCurrentWeapon(0);
 
     }
 
@@ -210,6 +232,36 @@ public class PlayerController : MonoBehaviour {
                 transform.localScale = new Vector3(transform.localScale.x, initialScale, transform.localScale.z);
 
             }
+        }
+    }
+
+    public void SetCurrentWeapon(int newWeapon) {
+
+        swords[currWeapon].gameObject.SetActive(false);
+        currWeapon = newWeapon;
+        swords[newWeapon].gameObject.SetActive(true);
+
+    }
+
+    public void Attack() {
+
+        Sword sword = swords[currWeapon];
+
+        if (Time.time <= sword.lastAttack + sword.attackAnimations[sword.currAnimation].length) {
+
+            if (!sword.attackQueued) {
+
+                sword.attackQueued = true;
+                return;
+
+            }
+        }
+
+        if (Time.time > nextAttack) {
+
+            swords[currWeapon].Attack();
+            nextAttack = Time.time + swords[currWeapon].attackCooldown;
+
         }
     }
 }

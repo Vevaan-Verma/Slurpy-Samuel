@@ -9,9 +9,9 @@ public abstract class Enemy : MonoBehaviour {
     protected Vector3 target;
 
     [Header("Attack")]
-    [SerializeField] protected int attackDamage;
-    [SerializeField] protected int attackCooldown;
+    [SerializeField] protected float attackDamage;
     [SerializeField] protected float attackRange;
+    [SerializeField] protected int attackCooldown;
 
     private void Start() {
 
