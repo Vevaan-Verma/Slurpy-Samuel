@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Sword : MonoBehaviour {
+public class Sword : MonoBehaviour {
 
     [Header("Attacking")]
     [HideInInspector] public bool attackQueued;
     [Range(0, 5)] public float attackCooldown;
     [SerializeField] protected float range;
     [SerializeField] protected float damage;
-    [SerializeField] protected float maxComboIntervalMultiplier;
+    [SerializeField] protected float maxComboInterval;
     [SerializeField] protected LayerMask enemyMask;
 
     [Header("Animations")]
@@ -24,16 +24,36 @@ public abstract class Sword : MonoBehaviour {
 
     }
 
-    private void FixedUpdate() {
+    public void Attack() {
 
-        if (attackQueued && Time.time > lastAttack + attackAnimations[currAnimation].length) {
+        animator.Play(attackAnimations[currAnimation].name);
+
+        if (Time.time <= lastAttack + attackAnimations[currAnimation].length + maxComboInterval) {
+
+            currAnimation++;
+
+            if (currAnimation == attackAnimations.Length) {
+
+                currAnimation = 0;
+
+            }
+        } else {
+
+            currAnimation = 0;
+
+        }
+
+        lastAttack = Time.time;
+
+    }
+
+    public void CheckAttackQueue() {
+
+        if (attackQueued) {
 
             Attack();
             attackQueued = false;
 
         }
     }
-
-    public abstract void Attack();
-
 }
