@@ -11,15 +11,11 @@ public class MeleeEnemy : Enemy {
 
     protected override void CheckAttack() {
 
+        agent.stoppingDistance = attackRange;
+
         if (Physics.CheckSphere(transform.position, attackRange, playerMask)) {
 
-            agent.isStopped = true;
-            transform.LookAt(player);
             Attack();
-
-        } else {
-
-            agent.isStopped = false;
 
         }
     }
@@ -34,16 +30,26 @@ public class MeleeEnemy : Enemy {
 
         if (Time.time > nextAttack) {
 
-            playerHealth.DamagePlayer(attackDamage);
+            playerHealth.TakeDamage(attackDamage);
             nextAttack = Time.time + attackCooldown;
 
         }
     }
 
-    private void OnDrawGizmos() {
+    public override void TakeDamage(float damage) {
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(transform.position, attackRange);
+        health -= damage;
+
+        if (health <= 0) {
+
+            Die();
+
+        }
+    }
+
+    protected override void Die() {
+
+        Destroy(gameObject);
 
     }
 }

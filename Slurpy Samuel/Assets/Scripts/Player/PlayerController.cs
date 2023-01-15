@@ -45,10 +45,10 @@ public class PlayerController : MonoBehaviour {
     private float initialScale;
     private float standHeight;
 
-    [Header("Weapons")]
+    [Header("Swords")]
     [SerializeField] private Transform swordHolder;
     private List<Sword> swords;
-    private int currWeapon;
+    private int currSword;
     private float nextAttack;
 
     [Header("Ground Check")]
@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        SetCurrentWeapon(0);
+        SetCurrentSword(0);
 
     }
 
@@ -235,32 +235,29 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    public void SetCurrentWeapon(int newWeapon) {
+    public void SetCurrentSword(int newSword) {
 
-        swords[currWeapon].gameObject.SetActive(false);
-        currWeapon = newWeapon;
-        swords[newWeapon].gameObject.SetActive(true);
+        swords[currSword].gameObject.SetActive(false);
+        currSword = newSword;
+        swords[newSword].gameObject.SetActive(true);
 
     }
 
     public void Attack() {
 
-        Sword sword = swords[currWeapon];
+        Sword sword = swords[currSword];
 
-        if (Time.time <= sword.lastAttack + sword.attackAnimations[sword.currAnimation].length) {
+        if (sword.canQueueAttack && !sword.attackQueued) {
 
-            if (!sword.attackQueued) {
+            sword.attackQueued = true;
+            return;
 
-                sword.attackQueued = true;
-                return;
-
-            }
         }
 
         if (Time.time > nextAttack) {
 
-            swords[currWeapon].Attack();
-            nextAttack = Time.time + swords[currWeapon].attackCooldown;
+            swords[currSword].Attack();
+            nextAttack = Time.time + swords[currSword].attackCooldown;
 
         }
     }

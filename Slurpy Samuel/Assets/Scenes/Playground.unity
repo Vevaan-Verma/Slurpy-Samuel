@@ -402,9 +402,9 @@ GameObject:
   - component: {fileID: 674163600}
   - component: {fileID: 674163605}
   - component: {fileID: 674163599}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -422,8 +422,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackDamage: 1
-  attackRange: 1.5
+  attackRange: 5
   attackCooldown: 1
+  maxHealth: 50
   playerHealth: {fileID: 759731119}
   player: {fileID: 759731115}
   playerMask:
@@ -545,7 +546,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!1 &730916179
 GameObject:
   m_ObjectHideFlags: 0
@@ -1013,9 +1014,10 @@ GameObject:
   - component: {fileID: 1330186230076481031}
   - component: {fileID: 1330186230077808167}
   - component: {fileID: 1330186230078774503}
+  - component: {fileID: 2858751719226337056}
   - component: {fileID: 2858751719226337054}
   - component: {fileID: 2858751719226337055}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sword1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1084,11 +1086,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6dafded4fe17e459604e72377e0fe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackQueued: 0
+  attackQueueLenience: 0.5
   attackCooldown: 0
+  attackQueued: 0
   range: 3
   damage: 20
-  maxComboIntervalMultiplier: 2
+  maxComboInterval: 2
   enemyMask:
     serializedVersion: 2
     m_Bits: 128
@@ -1116,3 +1119,16 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &2858751719226337056
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1330186230076572199}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.33914563, y: 1.6102878, z: 0.09140729}
+  m_Center: {x: 0.00629568, y: 0.3811042, z: -0.00008616968}
