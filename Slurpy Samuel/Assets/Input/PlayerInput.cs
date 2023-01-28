@@ -317,6 +317,15 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ScrollWheel"",
+                    ""type"": ""Value"",
+                    ""id"": ""a0f982ff-617e-4c5b-ae9e-9f5090654072"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -341,6 +350,17 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""361a7b06-5e37-43e7-a2c1-1b7bbd456eb9"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ScrollWheel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -358,6 +378,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         // Weapon
         m_Weapon = asset.FindActionMap("Weapon", throwIfNotFound: true);
         m_Weapon_Attack = m_Weapon.FindAction("Attack", throwIfNotFound: true);
+        m_Weapon_ScrollWheel = m_Weapon.FindAction("ScrollWheel", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -491,11 +512,13 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Weapon;
     private IWeaponActions m_WeaponActionsCallbackInterface;
     private readonly InputAction m_Weapon_Attack;
+    private readonly InputAction m_Weapon_ScrollWheel;
     public struct WeaponActions
     {
         private @PlayerInput m_Wrapper;
         public WeaponActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Attack => m_Wrapper.m_Weapon_Attack;
+        public InputAction @ScrollWheel => m_Wrapper.m_Weapon_ScrollWheel;
         public InputActionMap Get() { return m_Wrapper.m_Weapon; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -508,6 +531,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Attack.started -= m_Wrapper.m_WeaponActionsCallbackInterface.OnAttack;
                 @Attack.performed -= m_Wrapper.m_WeaponActionsCallbackInterface.OnAttack;
                 @Attack.canceled -= m_Wrapper.m_WeaponActionsCallbackInterface.OnAttack;
+                @ScrollWheel.started -= m_Wrapper.m_WeaponActionsCallbackInterface.OnScrollWheel;
+                @ScrollWheel.performed -= m_Wrapper.m_WeaponActionsCallbackInterface.OnScrollWheel;
+                @ScrollWheel.canceled -= m_Wrapper.m_WeaponActionsCallbackInterface.OnScrollWheel;
             }
             m_Wrapper.m_WeaponActionsCallbackInterface = instance;
             if (instance != null)
@@ -515,6 +541,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
+                @ScrollWheel.started += instance.OnScrollWheel;
+                @ScrollWheel.performed += instance.OnScrollWheel;
+                @ScrollWheel.canceled += instance.OnScrollWheel;
             }
         }
     }
@@ -531,5 +560,6 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     public interface IWeaponActions
     {
         void OnAttack(InputAction.CallbackContext context);
+        void OnScrollWheel(InputAction.CallbackContext context);
     }
 }

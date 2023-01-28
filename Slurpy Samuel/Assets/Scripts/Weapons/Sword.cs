@@ -1,24 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Controls;
 
 public class Sword : MonoBehaviour {
 
     [Header("Attacking")]
-    [Range(0, 10)] public float attackQueueLenience;
     [Range(0, 5)] public float attackCooldown;
     [HideInInspector] public bool attackQueued;
     [HideInInspector] public bool canQueueAttack;
-    [SerializeField] protected float range;
     [SerializeField] protected float damage;
     [SerializeField] protected float maxComboInterval;
     [SerializeField] protected LayerMask enemyMask;
 
     [Header("Animations")]
     public AnimationClip[] attackAnimations;
-    [HideInInspector] public int currAnimation;
     [HideInInspector] public float lastAttack;
+    [HideInInspector] public int currAnimation;
+    [HideInInspector] public Vector3 originalPosition;
     protected Animator animator;
+
+    private void Awake() {
+
+        lastAttack = float.MinValue;
+
+    }
 
     private void Start() {
 
@@ -55,7 +61,7 @@ public class Sword : MonoBehaviour {
 
     }
 
-    public void CheckAttackQueue() {
+    public void OnAnimationEnd() {
 
         canQueueAttack = false;
 

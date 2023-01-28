@@ -58,6 +58,7 @@ public class InputManager : MonoBehaviour {
     private void LateUpdate() {
 
         playerController.Look(playerInput.Player.Look.ReadValue<Vector2>());
+        playerController.SwitchSwords(playerInput.Weapon.ScrollWheel.ReadValue<float>());
 
     }
 }

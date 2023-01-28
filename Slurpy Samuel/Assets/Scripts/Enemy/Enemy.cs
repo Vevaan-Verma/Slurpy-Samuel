@@ -14,6 +14,8 @@ public abstract class Enemy : MonoBehaviour {
     [SerializeField] protected float attackDamage;
     [SerializeField] protected float attackRange;
     [SerializeField] protected int attackCooldown;
+    protected float nextAttack;
+    protected bool isDead;
 
     [Header("Health")]
     [SerializeField] private float maxHealth;
@@ -25,6 +27,8 @@ public abstract class Enemy : MonoBehaviour {
         agent = GetComponent<NavMeshAgent>();
 
         health = maxHealth;
+
+        agent.stoppingDistance = attackRange;
 
     }
 

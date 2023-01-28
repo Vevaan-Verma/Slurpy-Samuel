@@ -45,6 +45,11 @@ public class PlayerController : MonoBehaviour {
     private float initialScale;
     private float standHeight;
 
+    [Header("Health")]
+    [SerializeField] private float maxHealth;
+    private float health;
+    private bool isDead;
+
     [Header("Swords")]
     [SerializeField] private Transform swordHolder;
     private List<Sword> swords;
@@ -71,6 +76,8 @@ public class PlayerController : MonoBehaviour {
 
         initialScale = transform.localScale.y;
         standHeight = collider.height;
+
+        health = maxHealth;
 
         swords = new List<Sword>();
 
@@ -235,12 +242,64 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    public void TakeDamage(float damage) {
+
+        if (!isDead) {
+
+            health -= damage;
+
+            if (health <= 0) {
+
+                Die();
+
+            }
+        }
+    }
+
+    private void Die() {
+
+        isDead = true;
+
+    }
+
+    public void SwitchSwords(float scrollInput) {
+
+        if (scrollInput > 0) {
+
+            if (currSword + 1 == swords.Count) {
+
+                SetCurrentSword(0);
+
+            } else {
+
+                SetCurrentSword(currSword + 1);
+
+            }
+        } else if (scrollInput < 0) {
+
+            if (currSword - 1 == -1) {
+
+                SetCurrentSword(swords.Count - 1);
+
+            } else {
+
+                SetCurrentSword(currSword - 1);
+
+            }
+        }
+    }
+
     public void SetCurrentSword(int newSword) {
 
-        swords[currSword].gameObject.SetActive(false);
-        currSword = newSword;
-        swords[newSword].gameObject.SetActive(true);
+        Sword sword = swords[currSword];
 
+        if (Time.time > sword.lastAttack + sword.attackAnimations[sword.currAnimation].length) {
+
+            sword.gameObject.SetActive(false);
+            currSword = newSword;
+            swords[newSword].gameObject.SetActive(true);
+
+        }
     }
 
     public void Attack() {

@@ -4,16 +4,12 @@ using UnityEngine;
 public class MeleeEnemy : Enemy {
 
     [Header("Specifics")]
-    [SerializeField] private PlayerHealth playerHealth;
-    [SerializeField] private Transform player;
+    [SerializeField] private PlayerController playerController;
     [SerializeField] private LayerMask playerMask;
-    private float nextAttack;
 
     protected override void CheckAttack() {
 
-        agent.stoppingDistance = attackRange;
-
-        if (Physics.CheckSphere(transform.position, attackRange, playerMask)) {
+        if (Physics.CheckSphere(playerController.transform.position, attackRange, playerMask) && !isDead) {
 
             Attack();
 
@@ -22,15 +18,18 @@ public class MeleeEnemy : Enemy {
 
     protected override void UpdatePath() {
 
-        agent.SetDestination(player.position);
+        if (!isDead) {
 
+            agent.SetDestination(playerController.transform.position);
+
+        }
     }
 
     private void Attack() {
 
         if (Time.time > nextAttack) {
 
-            playerHealth.TakeDamage(attackDamage);
+            playerController.TakeDamage(attackDamage);
             nextAttack = Time.time + attackCooldown;
 
         }
@@ -38,18 +37,23 @@ public class MeleeEnemy : Enemy {
 
     public override void TakeDamage(float damage) {
 
-        health -= damage;
+        if (!isDead) {
 
-        if (health <= 0) {
+            health -= damage;
 
-            Die();
+            if (health <= 0) {
 
+                Die();
+
+            }
         }
     }
 
     protected override void Die() {
 
-        Destroy(gameObject);
+        isDead = true;
+        agent.enabled = false;
+        Destroy(gameObject, 5f);
 
     }
 }
