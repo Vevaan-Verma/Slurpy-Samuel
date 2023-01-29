@@ -6,7 +6,6 @@ using UnityEngine.InputSystem.Controls;
 public class Sword : MonoBehaviour {
 
     [Header("Attacking")]
-    [Range(0, 5)] public float attackCooldown;
     [HideInInspector] public bool attackQueued;
     [HideInInspector] public bool canQueueAttack;
     [SerializeField] protected float damage;
@@ -61,7 +60,7 @@ public class Sword : MonoBehaviour {
 
     }
 
-    public void ResetAttackQueue() {
+    public void OnAnimationEnd() {
 
         canQueueAttack = false;
 

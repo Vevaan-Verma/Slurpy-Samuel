@@ -316,7 +316,7 @@ public class PlayerController : MonoBehaviour {
         if (Time.time > nextAttack) {
 
             swords[currSword].Attack();
-            nextAttack = Time.time + swords[currSword].attackCooldown;
+            nextAttack = Time.time + sword.attackAnimations[sword.currAnimation].length;
 
         }
     }
