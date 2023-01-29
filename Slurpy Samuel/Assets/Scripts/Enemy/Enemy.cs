@@ -6,6 +6,8 @@ using UnityEngine.AI;
 public abstract class Enemy : MonoBehaviour {
 
     [Header("References")]
+    [SerializeField] protected PlayerController playerController;
+    [SerializeField] protected LayerMask playerMask;
     protected Rigidbody rb;
     protected NavMeshAgent agent;
     protected Vector3 target;

@@ -61,7 +61,7 @@ public class Sword : MonoBehaviour {
 
     }
 
-    public void OnAnimationEnd() {
+    public void ResetAttackQueue() {
 
         canQueueAttack = false;
 

@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class MeleeEnemy : Enemy {
 
-    [Header("Specifics")]
-    [SerializeField] private PlayerController playerController;
-    [SerializeField] private LayerMask playerMask;
 
     protected override void CheckAttack() {
 
