@@ -1,16 +1,19 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(InputManager))]
 public class PlayerController : MonoBehaviour {
 
     [Header("References")]
-    [SerializeField] private Transform feet;
+    public UIController UIController;
     public new Camera camera;
     public Transform cameraPosition;
+    [SerializeField] private Transform feet;
+    [HideInInspector] public InputManager inputManager;
     [HideInInspector] public Rigidbody rb;
-    private new CapsuleCollider collider;
 
     [Header("Movement")]
     [SerializeField][Range(0f, 25f)] private float walkSpeed;
@@ -40,13 +43,13 @@ public class PlayerController : MonoBehaviour {
     [SerializeField][Range(0f, 10f)] private float fallMultiplier;
 
     [Header("Crouching")]
-    [SerializeField][Range(0f, 2f)] private float crouchHeight;
+    [SerializeField][Range(0f, 1f)] private float crouchFactor;
     [HideInInspector] public bool isCrouching;
-    private float initialScale;
     private float standHeight;
+    private float crouchHeight;
 
     [Header("Health")]
-    [SerializeField] private float maxHealth;
+    public float maxHealth;
     private float health;
     private bool isDead;
 
@@ -66,16 +69,13 @@ public class PlayerController : MonoBehaviour {
 
     private void Start() {
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
-        collider = GetComponent<CapsuleCollider>();
-
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
-        initialScale = transform.localScale.y;
-        standHeight = collider.height;
+        inputManager = GetComponent<InputManager>();
+
+        standHeight = transform.localScale.y;
+        crouchHeight = standHeight * crouchFactor;
 
         health = maxHealth;
 
@@ -227,18 +227,8 @@ public class PlayerController : MonoBehaviour {
         if (isGrounded) {
 
             isCrouching = !isCrouching;
+            transform.localScale = new Vector3(transform.localScale.x, isCrouching ? crouchHeight : standHeight, transform.localScale.z);
 
-            if (isCrouching) {
-
-                collider.height = crouchHeight;
-                transform.localScale = new Vector3(transform.localScale.x, crouchHeight, transform.localScale.z);
-
-            } else {
-
-                collider.height = standHeight;
-                transform.localScale = new Vector3(transform.localScale.x, initialScale, transform.localScale.z);
-
-            }
         }
     }
 
@@ -247,6 +237,7 @@ public class PlayerController : MonoBehaviour {
         if (!isDead) {
 
             health -= damage;
+            UIController.UpdateHealthBar(health);
 
             if (health <= 0) {
 

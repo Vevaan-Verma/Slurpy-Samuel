@@ -6,7 +6,7 @@ public class MeleeEnemy : Enemy {
 
     protected override void CheckAttack() {
 
-        if (Physics.CheckSphere(playerController.transform.position, attackRange, playerMask) && !isDead) {
+        if (Physics.CheckSphere(transform.position, attackRange, playerMask) && !isDead) {
 
             Attack();
 

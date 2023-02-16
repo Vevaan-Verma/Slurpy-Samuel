@@ -21,13 +21,9 @@ public class Sword : MonoBehaviour {
 
     private void Awake() {
 
-        lastAttack = float.MinValue;
-
-    }
-
-    private void Start() {
-
         animator = GetComponent<Animator>();
+
+        lastAttack = float.MinValue;
 
     }
 

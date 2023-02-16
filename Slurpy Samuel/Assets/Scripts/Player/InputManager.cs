@@ -11,16 +11,19 @@ public class InputManager : MonoBehaviour {
     private PlayerController playerController;
 
     [Header("Input Actions")]
-    private InputActionMap playerMap;
-    private InputActionMap weaponMap;
+    public InputActionMap playerMap;
+    public InputActionMap weaponMap;
+    public InputActionMap menuMap;
 
     private void OnEnable() {
 
         playerMap = playerInput.Player;
         weaponMap = playerInput.Weapon;
+        menuMap = playerInput.Menu;
 
         playerMap.Enable();
         weaponMap.Enable();
+        menuMap.Disable();
 
     }
 
@@ -28,6 +31,7 @@ public class InputManager : MonoBehaviour {
 
         playerMap.Disable();
         weaponMap.Disable();
+        menuMap.Disable();
 
     }
 
