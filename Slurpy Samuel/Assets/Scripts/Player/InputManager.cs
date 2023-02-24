@@ -11,9 +11,9 @@ public class InputManager : MonoBehaviour {
     private PlayerController playerController;
 
     [Header("Input Actions")]
-    public InputActionMap playerMap;
-    public InputActionMap weaponMap;
-    public InputActionMap menuMap;
+    [HideInInspector] public InputActionMap playerMap;
+    [HideInInspector] public InputActionMap weaponMap;
+    [HideInInspector] public InputActionMap menuMap;
 
     private void OnEnable() {
 
@@ -50,6 +50,8 @@ public class InputManager : MonoBehaviour {
         playerInput.Player.Jump.performed += ctx => playerController.Jump();
         playerInput.Player.Crouch.performed += ctx => playerController.ToggleCrouch();
         playerInput.Weapon.Attack.performed += ctx => playerController.Attack();
+        playerInput.Player.PauseGame.performed += ctx => playerController.PauseGame();
+        playerInput.Menu.CloseMenu.performed += ctx => playerController.ResumeGame();
 
     }
 

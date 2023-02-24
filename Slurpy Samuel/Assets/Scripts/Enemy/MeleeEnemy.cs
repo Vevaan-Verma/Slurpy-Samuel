@@ -1,8 +1,8 @@
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 
 public class MeleeEnemy : Enemy {
-
 
     protected override void CheckAttack() {
 
@@ -51,6 +51,16 @@ public class MeleeEnemy : Enemy {
         isDead = true;
         agent.enabled = false;
         Destroy(gameObject, 5f);
+        playerProgress.AddKill();
+        Transform trail = Instantiate(soulTrail, transform.position, Quaternion.identity).transform;
+
+        Tweener tween = trail.DOMove(playerController.transform.position, soulTrailDuration).SetEase(Ease.InBack).OnComplete(() => {
+
+            playerProgress.AddSouls(souls);
+
+        });
+
+        waveManager.CheckWaveEnd();
 
     }
 }

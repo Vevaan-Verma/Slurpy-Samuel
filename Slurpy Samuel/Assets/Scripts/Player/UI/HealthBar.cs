@@ -8,8 +8,8 @@ public class HealthBar : MonoBehaviour {
     [Header("References")]
     [HideInInspector] public Slider slider;
 
-    [Header("Transitions")]
-    public float slideTime;
+    [Header("Slide Transition")]
+    [Range(0f, 5f)] public float transitionDuration;
 
     private void Start() {
 

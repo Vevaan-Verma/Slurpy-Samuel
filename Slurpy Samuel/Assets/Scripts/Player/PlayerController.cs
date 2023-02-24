@@ -311,4 +311,16 @@ public class PlayerController : MonoBehaviour {
 
         }
     }
+
+    public void PauseGame() {
+
+        UIController.OpenPauseMenu();
+
+    }
+
+    public void ResumeGame() {
+
+        UIController.ClosePauseMenu();
+
+    }
 }
